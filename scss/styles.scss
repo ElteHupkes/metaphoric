@@ -1,0 +1,155 @@
+/**
+ * Metaphoric.nl Stylesheet
+ * (c) Elte Hupkes
+ */
+@import "compass";
+
+$title-color:#761407;
+$link-color:#1f8cee;
+$link-hover-color:darken($link-color, 20);
+
+body {
+	background:#dff4ff image-url('bg.jpg') repeat-x;
+	font:62.5%/1.5 'Gentium Basic', serif;
+}
+
+// Width including padding
+$content-width:850px;
+$content-padding:20px;
+$content-font-size:1.8em;
+$content-line-height:1.8em;
+
+// Main structure
+#wrapper {
+	margin:0 auto;
+	padding-bottom:20px;
+	width:$content-width;
+}
+
+header {
+	padding-left:370px;
+	background:image-url('logo.png') no-repeat;
+	line-height:184px;
+	height:184px;
+	overflow:hidden;
+	text-indent:-999px;
+}
+
+footer {
+	background-color:#333;
+	padding:$content-padding;
+	color:#fff;
+	margin:0 2px;
+	@include box-shadow(0 0 2px 0 #bbb);
+	overflow:hidden;
+
+	a {
+		text-decoration:none;
+		&:hover {
+			color:lighten($link-color, 30);
+		}
+	}
+}
+
+// Markup
+h1, h2 {
+	color:$title-color;
+	font-weight:normal;
+}
+
+a {
+	color: $link-color;
+	text-decoration:underline;
+
+	&:hover {
+		color:$link-hover-color;
+	}
+}
+
+#content {
+	color:#222;
+	background:#fff;
+	@include box-shadow(0 0 2px 0 #bbb);
+	padding:$content-padding;
+
+	h1 {
+		font-size:3.4em;
+	}
+
+	p {
+		font-size:$content-font-size;
+		line-height:$content-line-height;
+	}
+}
+
+// Footer
+$about-width:400px;
+#about {
+	position:relative;
+	float:right;
+	width:$about-width;
+	background-color: #464646;
+	padding:10px;
+	p {
+		font-size:1.6em;
+		margin-bottom:0.5em;
+	}
+}
+#elte {
+	display:block;
+	float:right;
+	margin-left:10px;
+}
+#post-info {
+	max-width:$content-width - $about-width - 100px;
+	float:left;
+	font-size:$content-font-size;
+
+	p {
+		margin-bottom:1em;
+	}
+}
+#older {
+	float:right;
+}
+
+$ref-height:50px;
+ul#links {
+	position:absolute;
+	left:10px;
+	bottom:10px;
+	list-style:none;
+	margin:0;
+	padding:0;
+	li {
+		list-style:none;
+		margin:0;
+		padding:0;
+		overflow:hidden;
+		float:left;
+		margin-right:5px;
+	}
+
+	a {
+		padding:2px;
+		text-indent:-9999px;
+		overflow:hidden;
+		margin:0 auto;
+		@include border-radius(3px);
+		@include inline-block;
+
+		&:hover {
+			background-color:#fff;
+		}
+	}
+}
+
+@each $link in (youtube soundcloud github) {
+	##{$link} {
+		a {
+			background:image-url(#{$link}) no-repeat center center;
+			width:image-width('images/#{$link}.png');
+			height:$ref-height;
+		}
+	}
+}
