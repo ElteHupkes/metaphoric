@@ -5,13 +5,12 @@ require 'json'
 # Default task is build
 task :default => "build"
 
-
 desc "Clear build files."
 task :clean do
-	rm_rf "build"
+	rm_rf "dist"
 end
 
-directory "build"
+directory "dist"
 
 # Load post configurations
 SRC=FileList['content/*.json']
@@ -23,39 +22,58 @@ SRC.each do |fn|
 		next
 	end
 
-	cfg['basename'] = fn.gsub(/content\/(.+)\.json/, '\1')
-
-	if not cfg.has_key?("source")
-		md = "content/"+cfg['basename']+".md"
-		html = "content/"+cfg['basename']+".html"
-		if File.exists?(md)
-			cfg['source'] = md
-		elsif File.exists?(html)
-			cfg['source'] = html
-		else
-			next
-		end
+	if not cfg.has_key?('slug')
+		# Create a string slug (http://stackoverflow.com/questions/4308377/ruby-post-title-to-slug)
+		cfg['slug'] = cfg['title'].downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')	
 	end
 
-	# Create a string slug (http://stackoverflow.com/questions/4308377/ruby-post-title-to-slug)
-	cfg['slug'] = cfg['title'].downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
-	outputfile = 'content/'+cfg['slug']+'.html'
 	cfg['filename'] = fn
+	cfg['outputfile'] = 'dist/'+cfg['slug']+'.html'
 
 	SOURCES.push(cfg)
-	DEPS.push(outputfile)
+	DEPS.push(cfg['outputfile'])
+end
 
-	file outputfile => [fn] do
-		puts "Generate "+outputfile
+SOURCES.sort_by { |hsh| hsh[:zip] }
+maxback = -([SOURCES.length, 3].min)
+SOURCES.each_with_index do |item, index|
+	op = "./generate.py "+item['filename']
+
+	if index > 0
+		op += " --previous "+SOURCES[index - 1]['filename']
+	end
+
+	if index < (SOURCES.length - 1)
+		op += " --next "+SOURCES[index + 1]['filename']
+	end
+	
+	op += " --latest "
+	(maxback..-1).each do |n|
+		op += SOURCES[n]['filename']
+	end
+
+	op += " > "+item['outputfile']
+
+	file item['outputfile'] => ["dist", item['filename']] do
+		sh op
 	end
 end
-SOURCES.sort_by { |hsh| hsh[:zip] }
 
-file "build/index.html" => DEPS do
-	puts "Generate index!"
+directory "dist/css" => "dist" do
+	sh "cp -r css dist/css"
+end
+
+directory "dist/images" do
+	sh "cp -r images dist/images"
+end
+directory "dist/js" do
+	sh "cp -r js dist/js"
+end
+
+file "dist/index.html" => DEPS.concat(["dist/js", "dist/images", "dist/css"]) do
+	# Just copy the latest post to the index
+	sh "cp "+SOURCES[-1]['outputfile']+" dist/index.html"
 end
 
 desc "Build."
-task :build => ["build/index.html"] do
-
-end
+task :build => ["dist", "dist/index.html"]

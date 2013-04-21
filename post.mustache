@@ -16,19 +16,23 @@
 	<header>Metaphoric, a blog by Elte Hupkes</header>
 	<div id="content">
 		<h1>{{title}}</h1>
-		{{content}}
+		{{{content}}}
 	</div>
 	<footer>
 		<div id="post-info">
 			<p>
 				Published on {{date_published}}<br />
-				<a href="#" id="newer">&lt;&lt; Newer</a>
-				<a id="older" href="#">Older &gt;&gt; </a>
+				{{#next}}
+					<a href="{{link}}" id="newer">&lt;&lt; Next post</a>
+				{{/next}}
+				{{#previous}}
+					<a id="{{link}}" href="#">Previous post &gt;&gt; </a>
+				{{/previous}}
 			</p>
 			<h3>Latest posts</h3>
-
-			<a href="#">How to fix a submarine</a> <br />
-			<a href="#">How to demolish a submarine</a>
+			{{#latest}}
+				<a href="{{link}}">{{title}}</a>
+			{{/latest}}
 		</div>
 		<div id="about">
 			<img src="images/elte.jpg" alt="Elte Hupkes" id="elte" width="164" height="140" />
