@@ -54,7 +54,7 @@ SOURCES.each_with_index do |item, index|
 
 	op += " > "+item['outputfile']
 
-	file item['outputfile'] => ["dist", item['filename']] do
+	file item['outputfile'] => ["dist", item['filename'], "post.mustache"] do
 		sh op
 	end
 end
@@ -70,7 +70,11 @@ directory "dist/js" do
 	sh "cp -r js dist/js"
 end
 
-file "dist/index.html" => DEPS.concat(["dist/js", "dist/images", "dist/css"]) do
+file "dist/css/styles.css" => ["dist/css", "scss/styles.scss"] do
+	sh "compass compile --relative-assets --sass-dir scss --css-dir dist/css --images-dir images scss/styles.scss"
+end
+
+file "dist/index.html" => DEPS.concat(["dist/js", "dist/images", "dist/css/styles.css"]) do
 	# Just copy the latest post to the index
 	sh "cp "+SOURCES[-1]['outputfile']+" dist/index.html"
 end

@@ -76,9 +76,13 @@ a {
 		font-size:3.4em;
 	}
 
-	p {
+	p, ul, ol {
 		font-size:$content-font-size;
 		line-height:$content-line-height;
+	}
+
+	ul, ol {
+		margin:1em 0 1em 1em;
 	}
 }
 
@@ -147,7 +151,7 @@ ul#links {
 @each $link in (youtube soundcloud github) {
 	##{$link} {
 		a {
-			background:image-url(#{$link}) no-repeat center center;
+			background:image-url('#{$link}.png') no-repeat center center;
 			width:image-width('images/#{$link}.png');
 			height:$ref-height;
 		}
