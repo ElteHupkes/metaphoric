@@ -55,24 +55,16 @@ page = open('post.mustache', 'r').read()
 config['content'] = source
 
 if args.next:
-	cfg = get_config(args.next)
-	config['next'] = {
-		'link': cfg['slug']+'.html',
-		'title': cfg['title']
-	}
+	config['next'] = args.next
 
 if args.prev:
-	cfg = get_config(args.prev)
-	config['previous'] = {
-		'link': cfg['slug']+'.html',
-		'title': cfg['title']
-	}
+	config['previous'] = args.prev
 
 if args.latest:
 	latest = []
 	for post in args.latest:
 		cfg = get_config(post)
-		latest.append({'link': cfg['slug']+'.html', 'title': cfg['title']})
+		latest.append({'lnk': cfg['slug']+'.html', 'ttl': cfg['title']})
 
 	config['latest'] = latest
 

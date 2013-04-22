@@ -13,7 +13,7 @@
 </head>
 <body>
 <div id="wrapper">
-	<header>Metaphoric, a blog by Elte Hupkes</header>
+	<header><a href="/">Metaphoric, a blog by Elte Hupkes</a></header>
 	<div id="content">
 		<h1>{{title}}</h1>
 		{{{content}}}
@@ -23,16 +23,18 @@
 			<p>
 				Published on {{date_published}}<br />
 				{{#next}}
-					<a href="{{link}}" id="newer">&lt;&lt; Next post</a>
+					<a href="{{next}}" id="newer">&lt;&lt; Next post</a>
 				{{/next}}
 				{{#previous}}
-					<a id="{{link}}" href="#">Previous post &gt;&gt; </a>
+					<a id="older" href="{{previous}}">Previous post &gt;&gt; </a>
 				{{/previous}}
 			</p>
 			<h3>Latest posts</h3>
-			{{#latest}}
-				<a href="{{link}}">{{title}}</a>
-			{{/latest}}
+			<ol id="latest">
+				{{#latest}}
+					<li><a href="{{link}}">{{title}}</a></li>
+				{{/latest}}
+			</ol>
 		</div>
 		<div id="about">
 			<img src="images/elte.jpg" alt="Elte Hupkes" id="elte" width="164" height="140" />

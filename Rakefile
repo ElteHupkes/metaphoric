@@ -15,7 +15,6 @@ directory "dist"
 # Load post configurations
 SRC=FileList['content/*.json']
 SOURCES=[]
-DEPS=[]
 SRC.each do |fn|
 	cfg = JSON.parse(File.read(fn))
 	if cfg.has_key?("draft") and cfg["draft"]
@@ -31,29 +30,34 @@ SRC.each do |fn|
 	cfg['outputfile'] = 'dist/'+cfg['slug']+'.html'
 
 	SOURCES.push(cfg)
-	DEPS.push(cfg['outputfile'])
 end
 
 SOURCES.sort_by { |hsh| hsh[:zip] }
+SOURCES[-1]['outputfile'] = 'dist/index.html'
+SOURCES[-1]['slug'] = 'index'
+
 maxback = -([SOURCES.length, 3].min)
+
+DEPS=[]
 SOURCES.each_with_index do |item, index|
 	op = "./generate.py "+item['filename']
 
 	if index > 0
-		op += " --previous "+SOURCES[index - 1]['filename']
+		op += " --previous "+SOURCES[index - 1]['slug']+'.html'
 	end
 
 	if index < (SOURCES.length - 1)
-		op += " --next "+SOURCES[index + 1]['filename']
+		op += " --next "+SOURCES[index + 1]['slug']+'.html'
 	end
 	
-	op += " --latest "
+	op += " --latest"
 	(maxback..-1).each do |n|
-		op += SOURCES[n]['filename']
+		op += " "+SOURCES[n]['filename']
 	end
 
 	op += " > "+item['outputfile']
 
+	DEPS.push(item['outputfile'])
 	file item['outputfile'] => ["dist", item['filename'], "post.mustache"] do
 		sh op
 	end
@@ -74,10 +78,5 @@ file "dist/css/styles.css" => ["dist/css", "scss/styles.scss"] do
 	sh "compass compile --relative-assets --sass-dir scss --css-dir dist/css --images-dir images scss/styles.scss"
 end
 
-file "dist/index.html" => DEPS.concat(["dist/js", "dist/images", "dist/css/styles.css"]) do
-	# Just copy the latest post to the index
-	sh "cp "+SOURCES[-1]['outputfile']+" dist/index.html"
-end
-
 desc "Build."
-task :build => ["dist", "dist/index.html"]
+task :build => DEPS.concat(["dist/js", "dist/images", "dist/css/styles.css"])
