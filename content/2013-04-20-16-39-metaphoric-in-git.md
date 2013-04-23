@@ -1,3 +1,5 @@
+# Metaphoric ... in Git.
+
 After a while of having Metaphoric lay dormant (the last thing I posted was back in 2011), I started thinking about
 what I could improve in order for me to actually start using it. It's not that I don't have anything to write about;
 actually I run into plenty of interesting stuff during an average day. I built the lastI Metaphoric when I was really

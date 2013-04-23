@@ -1,3 +1,5 @@
+# Short accoustic performance
+
 Yesterday, me and my friend Joris performed two accoustic covers at a fundraiser. Me and Joris hadn't played together
 before, we actually started practicing the afternoon of the event. While I failed to get recordings of the event itself,
 I did find one of the practice sessions on my voice recorder, which I've put on my SoundCloud:

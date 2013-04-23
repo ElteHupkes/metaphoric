@@ -12,54 +12,12 @@ end
 
 directory "dist"
 
-# Load post configurations
-SRC=FileList['content/*.json']
-SOURCES=[]
-SRC.each do |fn|
-	cfg = JSON.parse(File.read(fn))
-	if cfg.has_key?("draft") and cfg["draft"]
-		next
-	end
-
-	if not cfg.has_key?('slug')
-		# Create a string slug (http://stackoverflow.com/questions/4308377/ruby-post-title-to-slug)
-		cfg['slug'] = cfg['title'].downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')	
-	end
-
-	cfg['filename'] = fn
-	cfg['outputfile'] = 'dist/'+cfg['slug']+'.html'
-
-	SOURCES.push(cfg)
-end
-
-SOURCES.sort_by { |hsh| hsh[:zip] }
-SOURCES[-1]['outputfile'] = 'dist/index.html'
-SOURCES[-1]['slug'] = 'index'
-
-maxback = -([SOURCES.length, 3].min)
-
-DEPS=[]
-SOURCES.each_with_index do |item, index|
-	op = "./generate.py "+item['filename']
-
-	if index > 0
-		op += " --previous "+SOURCES[index - 1]['slug']+'.html'
-	end
-
-	if index < (SOURCES.length - 1)
-		op += " --next "+SOURCES[index + 1]['slug']+'.html'
-	end
-	
-	op += " --latest"
-	(maxback..-1).each do |n|
-		op += " "+SOURCES[n]['filename']
-	end
-
-	op += " > "+item['outputfile']
-
-	DEPS.push(item['outputfile'])
-	file item['outputfile'] => ["dist", item['filename'], "post.mustache"] do
-		sh op
+# Load a list of posts
+SOURCES=FileList['content/*.md'].select { |fn| !(fn =~ /\.draft\.md$/) }.sort!
+SOURCES.each do |fn|
+	m = /^content\/\d{4}-\d\d-\d\d-\d\d-\d\d(.+)\.md$/.match(fn)
+	outputfile
+	file outputfile => ["dist", outputfile, "post.mustache"] do
 	end
 end
 
