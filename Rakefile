@@ -114,8 +114,12 @@ file "dist/all-posts.html" => DEPS + ["all_posts.mustache", 'layout.mustache'] d
 	File.open("dist/all-posts.html", 'w') { |f| f.write(output) }
 end
 
+file "dist/favicon.ico" => ["favicon.ico", "dist"] do
+	sh "cp favicon.ico dist/favicon.ico"
+end
+
 desc "Build."
-task :build => ["dist/index.html", "dist/all-posts.html", "dist/js", "dist/images", "dist/css/styles.css"]
+task :build => ["dist/favicon.ico", "dist/index.html", "dist/all-posts.html", "dist/js", "dist/images", "dist/css/styles.css"]
 
 task :create, :title do |t, args|
 	t = DateTime.now
