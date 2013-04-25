@@ -22,15 +22,14 @@ So I sat down and looked at the things I thought would be important for my new b
 I started [MetaphoricJS](http://github.com/ElteHupkes/MetaphoricJS) a while ago to play around with
 [EmberJS](http://www.emberjs.com), but decided this is also not quite suited for a blog (I don't remember which article
 pointed this out; but blogs are mostly about sporadic users viewing one or two of your posts, why have them download
-a whole bunch of JS?). Besides, I get a lot of EmberJS playing time at my job at [SRXP](http://www.srxp.com) these days.
-So instead I took an entirely different approach:
+a whole bunch of JS?). It was mostly for playing around; but I get a lot of EmberJS playing time at
+my job at [SRXP](http://www.srxp.com) these days. So instead I took an entirely different approach:
 
 - I like having everything in repos; so why couldn't my blog be a repo? Step 1: create Git-repo for blog.
-- Posts are just text files in the repo; every post consists of a config file (in JSON, 'cause every programming
-  language can read it easily) and a content source. I can write them in Markdown, or in HTML if I need something fancy.
-   But oh no, what if I want to create a post while on the road without access to my own computer (read: private key
-  for checking out the repo)? Solution: put the entire thing on GitHub, which supports sweet inline-editing
-  of the repository.
+- Posts are just text files in the repo; every post is simply a file written in Markdown, which of course means
+  I can still mix in HTML wherever I like. But oh no, what if I want to create a post while on the road without access
+  to my own computer (read: private key for checking out the repo)? Solution: put the entire thing on GitHub,
+  which supports sweet inline-editing of the repository.
 - Screw managing and storing content yourself: I already used YouTube for videos; now I'll use SoundCloud for sounds,
   and whatever-box for whatever may come up in the future. There's a better solution for everything than the one I
   have the time to come up with.

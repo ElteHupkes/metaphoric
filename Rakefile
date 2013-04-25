@@ -52,7 +52,6 @@ SOURCES.each do |fn|
 
 	CONFIGS.push(cfg)
 end
-CONFIGS[-1][:slug] = 'index'
 
 l = CONFIGS.length
 latestRange = -([3,l].min)..-1
@@ -72,11 +71,17 @@ CONFIGS.each_with_index do |cfg, index|
 		deps.push(cfg[:prev][:input])
 	end
 
-	cfg[:link] = cfg[:slug]+'.html'
-	cfg[:output] = 'dist/'+cfg[:link]
+	if index == (l-1)
+		cfg[:link] = '/'
+		cfg[:output] = 'dist/index.html'
+	else
+		cfg[:link] = cfg[:slug]+'.html'
+		cfg[:output] = 'dist/'+cfg[:link]
+	end
 	cfg[:latest] = latest
 
 	file cfg[:output] => deps do
+		puts "Generating post "+cfg[:title]
 		cfg[:content] = Maruku.new(File.read(cfg[:input])).to_html
 		output = Mustache.render(post, cfg)
 		File.open(cfg[:output], 'w') { |f| f.write(output) }
