@@ -5,49 +5,44 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
 
-	<link rel="stylesheet" href="./css/reset.css"/>
-	<link rel="stylesheet" href="./css/styles.css"/>
+	<link rel="stylesheet" href="css/reset.css"/>
+	<link rel="stylesheet" href="css/styles.css"/>
 
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Gentium+Basic' rel='stylesheet' type='text/css'>
 </head>
 <body>
-<div id="wrapper">
-	<header><a href="/">Metaphoric, a blog by Elte Hupkes</a></header>
-	<div id="content">
-		<h1>{{title}}</h1>
-		{{{content}}}
-	</div>
-	<footer>
-		<div id="post-info">
-			<p>
-				Published on {{date_published}}<br />
-				{{#next}}
-					<a href="{{next}}" id="newer">&lt;&lt; Next post</a>
-				{{/next}}
-				{{#previous}}
-					<a id="older" href="{{previous}}">Previous post &gt;&gt; </a>
-				{{/previous}}
-			</p>
-			<h3>Latest posts</h3>
-			<ol id="latest">
-				{{#latest}}
-					<li><a href="{{link}}">{{title}}</a></li>
-				{{/latest}}
-			</ol>
-		</div>
-		<div id="about">
-			<img src="images/elte.jpg" alt="Elte Hupkes" id="elte" width="164" height="140" />
-			<p>Hey! I'm Elte.</p>
-			<p>I'm a developer from Amsterdam who loves tech, music and sports.</p>
+<header id="sidebar">
+	<a href="/" id="logo"></a>
+	<div id="about">
+		<p>Hey! I'm Elte.</p>
+		<p>I'm a developer from Amsterdam who loves tech, music and sports.</p>
 
-			<ul id="links">
-				<li id="github"><a href="http://github.com/ElteHupkes" title="See my stuff on GitHub">My stuff on GitHub</a></li>
-				<li id="youtube"><a href="http://www.youtube.com/user/Ellutu" title="Watch me on YouTube">Watch me on YouTube</a></li>
-				<li id="soundcloud"><a href="http://soundcloud.com/elte-hupkes" title="Hear me on SoundCloud">Hear me on SoundCloud</a></li>
-			</ul>
-		</div>
+		<ul id="links">
+			<li id="github"><a href="http://github.com/ElteHupkes" title="See my stuff on GitHub">My stuff on GitHub</a></li>
+			<li id="youtube"><a href="http://www.youtube.com/user/Ellutu" title="Watch me on YouTube">Watch me on YouTube</a></li>
+			<li id="soundcloud"><a href="http://soundcloud.com/elte-hupkes" title="Hear me on SoundCloud">Hear me on SoundCloud</a></li>
+		</ul>
+	</div>
+</header>
+<section id="content-wrapper">
+	<header id="meta">
+		<span id="published">{{published}}</span>
+		{{#prev}}<a id="older" href="{{link}}" title="{{title}}">{{truncated}} &gt;&gt; </a>{{/prev}}
+		{{#next}}<a href="{{link}}" id="newer" title="{{title}}">&lt;&lt; {{truncated}}</a>{{/next}}
+	</header>
+	<article id="content">
+		{{{content}}}
+	</article>
+
+	<footer>
+		<h2>Latest posts</h2>
+		<ol id="latest">
+			{{#latest}}
+				<li><a href="{{link}}">{{title}}</a></li>
+			{{/latest}}
+		</ol>
 	</footer>
-</div>
+</section>
 </body>
 </html>

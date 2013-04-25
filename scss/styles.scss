@@ -9,45 +9,86 @@ $link-color:#1f8cee;
 $link-hover-color:darken($link-color, 20);
 
 body {
-	background:#dff4ff image-url('bg.jpg') repeat-x;
+	background:#dff4ff image-url('bg.jpg') fixed repeat-x;
 	font:62.5%/1.5 'Gentium Basic', serif;
 }
 
 // Width including padding
 $content-width:850px;
-$content-padding:20px;
+$content-padding:40px;
 $content-font-size:1.8em;
 $content-line-height:1.8em;
 
 // Main structure
-#wrapper {
-	margin:0 auto;
-	padding-bottom:20px;
-	width:$content-width;
-}
-
-header {
-	padding-left:370px;
-	background:image-url('logo.png') no-repeat;
-	line-height:184px;
-	height:184px;
+#sidebar {
+	position:absolute;
+	top:0;
+	left:0;
 	overflow:hidden;
+	width:25%;
+}
+#logo {
+	background:image-url('logo.png') no-repeat center center;
+	height:image-height('logo.png');
 	text-indent:-999px;
+	overflow:hidden;
+	width:100%;
+	display:block;
+	text-indent:-999px;
+	margin-bottom:30px;
 }
 
-footer {
-	background-color:#333;
-	padding:$content-padding;
-	color:#fff;
-	margin:0 2px;
+#content-wrapper {
+	margin-left:25%;
+	color:#222;
+	position:relative;
+	background:#fff;
 	@include box-shadow(0 0 2px 0 #bbb);
-	overflow:hidden;
 
-	a {
-		text-decoration:none;
-		&:hover {
-			color:lighten($link-color, 30);
-		}
+	h1 {
+		font-size:3.4em;
+	}
+	h2 {
+		font-size:2.4em;
+	}
+
+	p, ul, ol {
+		font-size:$content-font-size;
+		line-height:$content-line-height;
+	}
+
+	ul, ol {
+		margin:1em 0 1em 1em;
+	}
+}
+#meta {
+	font-size:$content-font-size;
+	border-bottom:1px solid #e2e2e2;
+	padding:10px $content-padding;
+	// Clear hack
+	overflow:hidden;
+}
+#published {
+	text-transform:capitalize;
+}
+#older, #newer {
+	float:right;
+	margin-left:10px;
+}
+
+#content {
+	padding:$content-padding;
+	max-width:500px;
+}
+
+#about {
+	padding:0 3%;
+	float:right;
+	max-width:300px;
+	p {
+		font-size:1.8em;
+		margin-bottom:1em;
+		@include text-shadow(1px 1px #e2e2e2);
 	}
 }
 
@@ -66,99 +107,45 @@ a {
 	}
 }
 
-#content {
-	color:#222;
-	background:#fff;
-	@include box-shadow(0 0 2px 0 #bbb);
-	padding:$content-padding;
-
-	h1 {
-		font-size:3.4em;
-	}
-
-	p, ul, ol {
-		font-size:$content-font-size;
-		line-height:$content-line-height;
-	}
-
-	ul, ol {
-		margin:1em 0 1em 1em;
-	}
-}
-
 // Footer
-$about-width:400px;
-#about {
-	position:relative;
-	float:right;
-	width:$about-width;
-	background-color: #464646;
-	padding:10px;
-	p {
-		font-size:1.6em;
-		margin-bottom:0.5em;
-	}
-}
-#elte {
-	display:block;
-	float:right;
-	margin-left:10px;
-}
-#post-info {
-	max-width:$content-width - $about-width - 100px;
-	float:left;
-	font-size:$content-font-size;
-
-	p {
-		margin-bottom:1em;
-	}
-}
-#older {
-	float:right;
+footer {
+	padding:$content-padding;
 }
 #latest {
-	list-style:none;
-	margin:0;
-	padding:0;
-}
+	list-style:"disc";
 
-$ref-height:50px;
-ul#links {
-	position:absolute;
-	left:10px;
-	bottom:10px;
-	list-style:none;
 	margin:0;
 	padding:0;
 	li {
-		list-style:none;
 		margin:0;
 		padding:0;
-		overflow:hidden;
-		float:left;
-		margin-right:5px;
 	}
+}
 
-	a {
-		padding:2px;
-		text-indent:-9999px;
+$ref-height:50px;
+#links {
+	list-style:none;
+	li {
+		float:left;
 		overflow:hidden;
-		margin:0 auto;
-		@include border-radius(3px);
-		@include inline-block;
-
+		margin-left:10px;
+	}
+	a {
+		display:block;
+		text-indent:-999px;
+		height:$ref-height;
+		border-radius:5px;
+		padding:5px;
 		&:hover {
 			background-color:#fff;
 		}
 	}
 }
-
 @each $link in (youtube soundcloud github) {
 	##{$link} {
 		a {
 			background:image-url('#{$link}.png') no-repeat center center;
-			width:image-width('images/#{$link}.png');
-			height:$ref-height;
+			width:image-width('#{$link}.png');
 		}
 	}
 }
