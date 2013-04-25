@@ -21,8 +21,8 @@ So I sat down and looked at the things I thought would be important for my new b
 
 I started [MetaphoricJS](http://github.com/ElteHupkes/MetaphoricJS) a while ago to play around with
 [EmberJS](http://www.emberjs.com), but decided this is also not quite suited for a blog (I don't remember which article
-pointed this out; but blogs are mostly about sporadic users viewing one or two of your posts, why have them download
-a whole bunch of JS?). It was mostly for playing around; but I get a lot of EmberJS playing time at
+pointed this out, but blogs are mostly about sporadic users viewing one or two of your posts, why have them download
+a whole bunch of JS?). Besides, I get a lot of EmberJS playing time at
 my job at [SRXP](http://www.srxp.com) these days. So instead I took an entirely different approach:
 
 - I like having everything in repos; so why couldn't my blog be a repo? Step 1: create Git-repo for blog.
@@ -38,3 +38,6 @@ my job at [SRXP](http://www.srxp.com) these days. So instead I took an entirely 
   Rake-thingy for a while now; seems everyone is using it these days. The only experience I have with Ruby was in
   my first year of Computer Science, and I recall we did not get along well. Ruby is really popular though, so maybe
   we got off on the wrong foot and it deserves another chance.
+
+And so, here it is: the new, simplified Metaphoric. I'm looking forward to writing about more stuff, especially
+next week after my knee operation when I won't be able to do much.

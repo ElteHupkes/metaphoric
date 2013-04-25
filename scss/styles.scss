@@ -24,13 +24,26 @@ $content-font-size:1.8em;
 $content-line-height:1.8em;
 
 // Main structure
-#sidebar {
-	position:fixed;
-	top:0;
-	left:0;
-	overflow:hidden;
-	width:25%;
+$wrapper-min-width:900px;
+#wrapper {
+	min-width:$wrapper-min-width;
+	height:100%;
 }
+$sidebar-fraction:0.25;
+#sidebar {
+	position:absolute;
+	left:0;
+	top:0;
+	overflow:hidden;
+	width: $sidebar-fraction * 100%;
+	min-width:$wrapper-min-width * $sidebar-fraction;
+}
+
+@media screen and (min-height: 500px) {
+	// If there's enough vertical space, don't scroll the sidebar.
+	#sidebar { position:fixed; }
+}
+
 #logo {
 	background:image-url('logo.png') no-repeat center center;
 	height:image-height('logo.png');
@@ -44,7 +57,8 @@ $content-line-height:1.8em;
 
 #content-wrapper {
 	min-height:100%;
-	margin-left:25%;
+	width:(1-$sidebar-fraction) * 100%;
+	margin-left:$sidebar-fraction * 100%;
 	color:#222;
 	position:relative;
 	background:#fff;
@@ -75,6 +89,7 @@ $content-line-height:1.8em;
 #content {
 	padding:$content-padding;
 	max-width:500px;
+	overflow:hidden;
 
 	p, ul, ol {
 		font-size:$content-font-size;

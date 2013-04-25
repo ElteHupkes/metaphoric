@@ -55,12 +55,14 @@ end
 
 l = CONFIGS.length
 latestRange = -([3,l].min)..-1
-latest = CONFIGS[latestRange]
+latest = CONFIGS[latestRange].reverse
 latestFiles = latest.map { |cfg| cfg[:input] }
 
-post = File.read('post.mustache');
+layout = File.read('layout.mustache')
+post = File.read('post.mustache')
+
 CONFIGS.each_with_index do |cfg, index|
-	deps = [cfg[:input], 'dist', 'post.mustache'].concat(latestFiles)
+	deps = [cfg[:input], 'dist', 'post.mustache', 'layout.mustache'] + latestFiles
 	if index < (l-1)
 		cfg[:next] = CONFIGS[index+1]
 		deps.push(cfg[:next][:input])
@@ -71,19 +73,15 @@ CONFIGS.each_with_index do |cfg, index|
 		deps.push(cfg[:prev][:input])
 	end
 
-	if index == (l-1)
-		cfg[:link] = '/'
-		cfg[:output] = 'dist/index.html'
-	else
-		cfg[:link] = cfg[:slug]+'.html'
-		cfg[:output] = 'dist/'+cfg[:link]
-	end
+	cfg[:link] = cfg[:slug]+'.html'
+	cfg[:output] = 'dist/'+cfg[:link]
 	cfg[:latest] = latest
 
 	file cfg[:output] => deps do
 		puts "Generating post "+cfg[:title]
 		cfg[:content] = Maruku.new(File.read(cfg[:input])).to_html
-		output = Mustache.render(post, cfg)
+		cur = Mustache.render(post, cfg)
+		output = Mustache.render(layout, :content => cur, :title => cfg[:title])
 		File.open(cfg[:output], 'w') { |f| f.write(output) }
 	end
 end
@@ -104,5 +102,28 @@ file "dist/css/styles.css" => ["dist/css", "scss/styles.scss"] do
 end
 
 DEPS = CONFIGS.map { |cfg| cfg[:output] }
+file "dist/index.html" => DEPS do
+	sh "cp "+DEPS[-1]+" dist/index.html"
+end
+
+file "dist/all-posts.html" => DEPS + ["all_posts.mustache", 'layout.mustache'] do
+	puts "Generating post list.."
+	tmpl = File.read('all_posts.mustache')
+	page = Mustache.render(tmpl, :posts => CONFIGS.reverse)
+	output = Mustache.render(layout, :content => page, :title => "All posts")
+	File.open("dist/all-posts.html", 'w') { |f| f.write(output) }
+end
+
 desc "Build."
-task :build => DEPS.concat(["dist/js", "dist/images", "dist/css/styles.css"])
+task :build => ["dist/index.html", "dist/all-posts.html", "dist/js", "dist/images", "dist/css/styles.css"]
+
+task :create, :title do |t, args|
+	t = DateTime.now
+	part = t.strftime('%Y-%m-%d-%H-%M')
+	filename = args[:title].downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
+	filename = part+'-'+filename+'.md'
+	puts "Creating content/"+filename+"..."
+
+	File.open("content/"+filename, 'w') { |f| f.write('# '+args[:title]) }
+end
+
