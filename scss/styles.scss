@@ -149,6 +149,9 @@ footer {
 $ref-height:50px;
 #links {
 	list-style-type:none;
+	overflow:hidden;
+	width:image-width('github.png') + image-width('youtube.png') + 40px;
+
 	li {
 		float:left;
 		overflow:hidden;
@@ -165,7 +168,7 @@ $ref-height:50px;
 		}
 	}
 }
-@each $link in (youtube soundcloud github) {
+@each $link in (youtube soundcloud github srxp) {
 	##{$link} {
 		a {
 			background:image-url('#{$link}.png') no-repeat center center;
