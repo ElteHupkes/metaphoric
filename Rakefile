@@ -141,6 +141,6 @@ task :create, :title do |t, args|
 end
 
 task :release => [:build] do
-	sh "ssh elte@hupkes.org cd 'cd ~/metaphoric && ./release.sh'"
+	sh "ssh elte@hupkes.org bash --login -c './metaphoric-release.sh'"
 end
 
