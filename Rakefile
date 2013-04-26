@@ -1,10 +1,11 @@
 # Rakefile for Metaphoric-static
 # requires:
-# maruku: gem install maruku
+# kramdown: gem install kramdown
 # compass: gem install compass
 # mustache: gem install mustache
+# coderay: gem install coderay
 
-require 'maruku'
+require 'kramdown'
 require 'mustache'
 
 # Default task is build
@@ -17,7 +18,7 @@ end
 
 directory "dist"
 
-def truncate(string, length = 15)
+def truncate(string, length = 20)
   string.size > length+5 ? [string[0,length],string[-5,5]].join("...") : string
 end
 
@@ -54,7 +55,7 @@ SOURCES.each do |fn|
 end
 
 l = CONFIGS.length
-latestRange = -([3,l].min)..-1
+latestRange = -([5,l].min)..-1
 latest = CONFIGS[latestRange].reverse
 latestFiles = latest.map { |cfg| cfg[:input] }
 
@@ -79,21 +80,25 @@ CONFIGS.each_with_index do |cfg, index|
 
 	file cfg[:output] => deps do
 		puts "Generating post "+cfg[:title]
-		cfg[:content] = Maruku.new(File.read(cfg[:input])).to_html
+		cfg[:content] = Kramdown::Document.new(File.read(cfg[:input])).to_html
 		cur = Mustache.render(post, cfg)
 		output = Mustache.render(layout, :content => cur, :title => cfg[:title])
 		File.open(cfg[:output], 'w') { |f| f.write(output) }
 	end
 end
 
-directory "dist/css" => "dist" do
+CSSFILES=FileList['css/*']
+directory "dist/css" => CSSFILES + ["dist"] do
 	sh "cp -r css dist/css"
 end
 
-directory "dist/images" do
+IMGFILES=FileList['img/*']
+directory "dist/images" => IMGFILES + ["dist"] do
 	sh "cp -r images dist/images"
 end
-directory "dist/js" do
+
+JSFILES=FileList['js/*']
+directory "dist/js" => JSFILES + ["dist"] do
 	sh "cp -r js dist/js"
 end
 

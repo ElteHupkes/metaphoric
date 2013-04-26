@@ -102,6 +102,25 @@ $sidebar-fraction:0.25;
 	}
 }
 
+// Code blocks
+$code-font-size:1.4em;
+pre, code, div.code {
+	font-family: 'Ubuntu Mono', monospace;
+}
+pre {
+	font-size:$code-font-size;
+	margin-bottom:1em;
+}
+div.code {
+	font-size:$code-font-size;
+	overflow:auto;
+	margin-bottom:1em;
+}
+.line-numbers {
+	margin-right:10px;
+}
+
+
 #about {
 	padding:0 3%;
 	float:right;
