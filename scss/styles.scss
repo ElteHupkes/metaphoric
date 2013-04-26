@@ -26,7 +26,6 @@ $content-line-height:1.8em;
 // Main structure
 $wrapper-min-width:900px;
 #wrapper {
-	min-width:$wrapper-min-width;
 	height:100%;
 }
 $sidebar-fraction:0.25;
@@ -36,20 +35,15 @@ $sidebar-fraction:0.25;
 	top:0;
 	overflow:hidden;
 	width: $sidebar-fraction * 100%;
-	min-width:$wrapper-min-width * $sidebar-fraction;
 }
 
-@media screen and (min-height: 500px) {
-	// If there's enough vertical space, don't scroll the sidebar.
-	#sidebar { position:fixed; }
-}
 
 #logo {
 	background:image-url('logo.png') no-repeat center center;
 	height:image-height('logo.png');
+	width:100%;
 	text-indent:-999px;
 	overflow:hidden;
-	width:100%;
 	display:block;
 	text-indent:-999px;
 	margin-bottom:30px;
@@ -100,6 +94,11 @@ $sidebar-fraction:0.25;
 	ul, ol {
 		margin:1em 0 1em 1em;
 	}
+}
+
+// If there's enough vertical space, don't scroll the sidebar.
+@media screen and (min-height: 500px) and (min-width: 900px) {
+	#sidebar { position:fixed; }
 }
 
 // Code blocks
@@ -175,7 +174,7 @@ $ref-height:50px;
 	li {
 		float:left;
 		overflow:hidden;
-		margin-left:10px;
+		margin-right:10px;
 	}
 	a {
 		display:block;
@@ -194,5 +193,41 @@ $ref-height:50px;
 			background:image-url('#{$link}.png') no-repeat center center;
 			width:image-width('#{$link}.png');
 		}
+	}
+}
+
+// If there's too little horizontal space (e.g. mobile devices)
+// move the sidebar to the top.
+@media screen and (max-width:$wrapper-min-width) {
+	$sidebar-height: image-height('logo.png');
+	#wrapper {
+		min-width:750px;
+	}
+	
+	#sidebar {
+		width:100%;
+		position:relative;
+	}
+
+	#content-wrapper {
+		width:100%;
+		margin:0;
+	}
+
+	#logo {
+		float:left;
+		width:image-width('logo.png');
+	}
+
+	#about {
+		padding:0;
+		float:left;
+		max-width:none;
+		width:350px;
+		margin-left:20px;
+	}
+
+	#links {
+		width:auto;
 	}
 }
