@@ -2,7 +2,7 @@
 
 After a while of having Metaphoric lay dormant (the last thing I posted was back in 2011), I started thinking about
 what I could improve in order for me to actually start using it. It's not that I don't have anything to write about;
-actually I run into plenty of interesting stuff during an average day. I built the lastI Metaphoric when I was really
+actually I run into plenty of interesting stuff during an average day. I built the last Metaphoric when I was really
 into making everything dynamic and using [CakePHP](http://www.cakephp.org) on a daily basis, so it used Cake backed up
 by the Croogo CMS (as I was too lazy to write the functionality myself). Turns out this was an unfortunate choice,
 because while I'm not too lazy to write blog posts, I actually _am_ too lazy to maintain the blog software itself.
