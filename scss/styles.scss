@@ -110,13 +110,12 @@ pre {
 	font-size:$code-font-size;
 	margin-bottom:1em;
 }
-div.code {
-	font-size:$code-font-size;
+.code {
 	overflow:auto;
 	margin-bottom:1em;
 }
 .line-numbers {
-	margin-right:10px;
+	padding-right:10px;
 }
 
 

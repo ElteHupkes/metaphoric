@@ -62,6 +62,10 @@ latestFiles = latest.map { |cfg| cfg[:input] }
 layout = File.read('layout.mustache')
 post = File.read('post.mustache')
 
+mdOptions = {
+	:coderay_line_numbers => :table
+}
+
 CONFIGS.each_with_index do |cfg, index|
 	deps = [cfg[:input], 'dist', 'post.mustache', 'layout.mustache'] + latestFiles
 	if index < (l-1)
@@ -80,7 +84,7 @@ CONFIGS.each_with_index do |cfg, index|
 
 	file cfg[:output] => deps do
 		puts "Generating post "+cfg[:title]
-		cfg[:content] = Kramdown::Document.new(File.read(cfg[:input])).to_html
+		cfg[:content] = Kramdown::Document.new(File.read(cfg[:input]), mdOptions).to_html
 		cur = Mustache.render(post, cfg)
 		output = Mustache.render(layout, :content => cur, :title => cfg[:title])
 		File.open(cfg[:output], 'w') { |f| f.write(output) }
@@ -134,5 +138,9 @@ task :create, :title do |t, args|
 	puts "Creating content/"+filename+"..."
 
 	File.open("content/"+filename, 'w') { |f| f.write('# '+args[:title]) }
+end
+
+task :release => [:build] do
+	sh "ssh elte@hupkes.org cd 'cd ~/metaphoric && ./release.sh'"
 end
 
