@@ -86,7 +86,8 @@ CONFIGS.each_with_index do |cfg, index|
 		puts "Generating post "+cfg[:title]
 		cfg[:content] = Kramdown::Document.new(File.read(cfg[:input]), mdOptions).to_html
 		cur = Mustache.render(post, cfg)
-		output = Mustache.render(layout, :content => cur, :title => cfg[:title])
+		cfg[:content] = cur
+		output = Mustache.render(layout, cfg)
 		File.open(cfg[:output], 'w') { |f| f.write(output) }
 	end
 end
@@ -119,7 +120,8 @@ file "dist/all-posts.html" => DEPS + ["all_posts.mustache", 'layout.mustache'] d
 	puts "Generating post list.."
 	tmpl = File.read('all_posts.mustache')
 	page = Mustache.render(tmpl, :posts => CONFIGS.reverse)
-	output = Mustache.render(layout, :content => page, :title => "All posts")
+	output = Mustache.render(layout, :content => page, 
+		:title => "All posts", :link => "/all-posts.html")
 	File.open("dist/all-posts.html", 'w') { |f| f.write(output) }
 end
 
