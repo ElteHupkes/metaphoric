@@ -94,6 +94,14 @@ $sidebar-fraction:0.25;
 	ul, ol {
 		margin:1em 0 1em 1em;
 	}
+
+	blockquote {
+		font-style:italic;
+	}
+
+	img {
+		max-width:100%;
+	}
 }
 
 // If there's enough vertical space, don't scroll the sidebar.

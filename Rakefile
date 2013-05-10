@@ -92,25 +92,6 @@ CONFIGS.each_with_index do |cfg, index|
 	end
 end
 
-CSSFILES=FileList['css/*']
-directory "dist/css" => CSSFILES + ["dist"] do
-	sh "cp -r css dist/css"
-end
-
-IMGFILES=FileList['img/*']
-directory "dist/images" => IMGFILES + ["dist"] do
-	sh "cp -r images dist/images"
-end
-
-JSFILES=FileList['js/*']
-directory "dist/js" => JSFILES + ["dist"] do
-	sh "cp -r js dist/js"
-end
-
-file "dist/css/styles.css" => ["dist/css", "scss/styles.scss"] do
-	sh "compass compile --relative-assets --sass-dir scss --css-dir dist/css --images-dir images scss/styles.scss"
-end
-
 DEPS = CONFIGS.map { |cfg| cfg[:output] }
 file "dist/index.html" => DEPS do
 	sh "cp "+DEPS[-1]+" dist/index.html"
@@ -129,8 +110,21 @@ file "dist/favicon.ico" => ["favicon.ico", "dist"] do
 	sh "cp favicon.ico dist/favicon.ico"
 end
 
+task :static => ["dist"] do
+	sh "cp -r js dist/js"
+	sh "cp -r images dist/images"
+	sh "cp -r css dist/css"
+	sh "cp favicon.ico dist/favicon.ico"
+end
+
+file "dist/css/styles.css" => [:static, "scss/styles.scss"] do
+	sh "compass compile --relative-assets --sass-dir scss --css-dir dist/css --images-dir images scss/styles.scss"
+end
+
+task :compile => ["dist/index.html", "dist/all-posts.html", "dist/css/styles.css"]
+
 desc "Build."
-task :build => ["dist/favicon.ico", "dist/index.html", "dist/all-posts.html", "dist/js", "dist/images", "dist/css/styles.css"]
+task :build => [:static, :compile]
 
 task :create, :title do |t, args|
 	t = DateTime.now
@@ -142,7 +136,7 @@ task :create, :title do |t, args|
 	File.open("content/"+filename, 'w') { |f| f.write('# '+args[:title]) }
 end
 
-task :release => [:build] do
+task :release do
 	sh "ssh elte@hupkes.org bash --login -c './metaphoric-release.sh'"
 end
 
