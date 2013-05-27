@@ -1,12 +1,12 @@
 # Globally parsing JSON error responses with `jQuery.ajax()`
 Proper RESTful API's use status codes to indicate the result of requests. This means that for `PUT`/`PATCH` 
 requests a `400 Bad Request` or a `409 Conflict` will be returned if the data in the request is invalid. Since this
-is a solvable error for the end user, the API will return error codes, perhaps something like this:
+is a solvable error for the end user, the API will return descriptive errors, perhaps something like this:
 
 ~~~~~~~ json
 {
 	"errors": {
-		"email": "invalid_email"
+		"email": "Invalid e-mail address"
 	}
 }
 ~~~~~~~

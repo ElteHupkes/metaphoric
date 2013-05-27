@@ -83,7 +83,6 @@ $sidebar-fraction:0.25;
 #content {
 	padding:$content-padding;
 	max-width:500px;
-	overflow:hidden;
 
 	p, ul, ol {
 		font-size:$content-font-size;
@@ -125,7 +124,12 @@ pre {
 .line-numbers {
 	padding-right:10px;
 }
-
+table.CodeRay {
+	font-family:'Ubuntu Mono', monospace;
+	white-space:nowrap;
+	display:block;
+	overflow:auto;
+}
 
 #about {
 	padding:0 3%;
@@ -219,6 +223,7 @@ $ref-height:50px;
 	#content-wrapper {
 		width:100%;
 		margin:0;
+		overflow:hidden;
 	}
 
 	#logo {
