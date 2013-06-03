@@ -1,7 +1,7 @@
 # Globally parsing JSON error responses with `jQuery.ajax()`
 Proper RESTful API's use status codes to indicate the result of requests. This means that for `PUT`/`PATCH` 
 requests a `400 Bad Request` or a `409 Conflict` will be returned if the data in the request is invalid. Since this
-is a solvable error for the end user, the API will return descriptive errors, perhaps something like this:
+is a solvable error for the end user, the API might return descriptive errors, perhaps something like this:
 
 ~~~~~~~ json
 {
@@ -32,7 +32,7 @@ errors like this. Preferably, the JSON data is automatically available in every 
 Unfortunately, `$.ajaxError` and `$.ajaxComplete` are worthless in this scenario, since they fire _after_ user defined
 callbacks. The solution is overriding `$.ajax` so you can always assign the first callback. A solution like this
 can be found [on this page](http://wingkaiwan.com/2012/10/21/deserialize-error-in-json-for-jquery-ajax/), but it is
-incomplete, as any "error" callback assigned through in `$.ajax`'s options will still run before the manual callback. 
+incomplete, as any "error" callback assigned through in `$.ajax`'s options will still run before the global callback.
 I therefore rewrote this code to work in that scenario as well:
 
 ~~~~~ javascript
