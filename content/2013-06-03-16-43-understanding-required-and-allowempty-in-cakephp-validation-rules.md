@@ -33,7 +33,7 @@ but should have been - this is impossible when adding `required = true` to an ex
 has its own validation error). The solution is adding a validation rule that always succeeds to your model:
 
 ~~~~ php
-// 
+// The validation rules
 public $validate = array(
 	'fieldName' => array(
 		'required' => array(
