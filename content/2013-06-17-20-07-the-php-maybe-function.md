@@ -16,7 +16,7 @@ var v = someHash['key'] || 'default';
 ~~~~
 
 A similar construct in PHP would not only return the wrong value - it would also raise a `Notice` if the key wasn't
-present. So last week, when I wrote this function:
+present. So last week I wrote this function:
 
 ~~~~ php
 /**
