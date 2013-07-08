@@ -39,3 +39,8 @@ $var = maybe($someHash, 'key', 'default');
 ~~~~
 
 Why I haven't thought this before is beyond me. I'm very happy about it though.
+
+**EDIT**: The only downside to this is of course performance - contrary to the
+ternary operator all possible results will be evalutated. When they're simple types
+the difference is negligible though, and probably worth the increased simplicity.
+Be wary when using this for something more computationally intensive though.
