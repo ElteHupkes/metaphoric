@@ -62,7 +62,7 @@
             <section>
                 <h2>Query params</h2>
                 <p>
-                    <code>/expenses<span class="fragment">?sort=date</span><span class="fragment">&filter=drinks</span></code>
+                    <code><span class="fragment">/expenses</span><span class="fragment">?sort=date</span><span class="fragment">&filter=drinks</span></code>
                 </p>
             </section>
             <section>
@@ -127,7 +127,7 @@
                 since most relevant router code was hidden away in closures
                 which could not be overridden in any way.
                 -->
-                <h3>Homemade add-ons</h3>
+                <h3>Homemade solutions</h3>
                 <ul>
                     <li class="fragment"><code>ember-query</code> (Alex Speller)</li>
                     <li class="fragment"><code>ember-query-params</code> (Elte Hupkes)</li>
@@ -209,17 +209,17 @@
             </section>
             <section>
                 <h3>Defaults</h3>
-<pre><code class="js">// URL: /posts?sort=date:desc
-    controller.set('sortVar', 'date:desc');
+<pre><code class="js">controller.set('sortVar', 'date:desc');
+// URL: /posts?sort=date:desc
 
-    // URL: /posts
-    controller.set('sortVar', 'date:asc');
+controller.set('sortVar', 'date:asc');
+// URL: /posts
 </code></pre>
             </section>
             <section>
                 <h3>Types</h3>
 <pre><code class="js">// URL: /posts?page=3
-    console.log(typeof controller.get('page')); // "number"
+console.log(typeof controller.get('page')); // "number"
 </code></pre>
             </section>
             <section>
