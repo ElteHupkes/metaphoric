@@ -114,6 +114,7 @@ task :static => ["dist"] do
 	sh "cp -r js dist"
 	sh "cp -r images dist"
 	sh "cp -r css dist"
+	sh "cp -r files dist"
 	sh "cp favicon.ico dist/favicon.ico"
 end
 
